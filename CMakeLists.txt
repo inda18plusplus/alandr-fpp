@@ -10,6 +10,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -Werror")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 
+option(ENABLE_TIMING "Time the paring and execution of the program" FALSE)
+
+if (ENABLE_TIMING)
+	add_definitions(-DTIMING)
+endif (ENABLE_TIMING)
+
 include_directories(src)
 file(GLOB_RECURSE SOURCE_FILES "src/*.[ch]pp")
 

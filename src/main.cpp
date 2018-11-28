@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include "ProgramParser.hpp"
 
@@ -24,9 +25,21 @@ int main(int argc, char** argv) {
 
 	auto p = std::make_shared<ProgramParser>(files);
 
+#ifdef TIMING
+	auto cStart = std::chrono::system_clock::now();
 	p->parse();
+	auto cEnd = std::chrono::system_clock::now();
 
+	auto rStart = std::chrono::system_clock::now();
 	p->run();
+	auto rEnd = std::chrono::system_clock::now();
+
+	std::cout << "Parsing took: " << std::chrono::duration_cast<std::chrono::microseconds>(cEnd - cStart).count() << "µs\n";
+	std::cout << "Running took: " << std::chrono::duration_cast<std::chrono::microseconds>(rEnd - rStart).count() << "µs\n";
+#else
+	p->parse();
+	p->run();
+#endif //TIMING
 
 	return 0;
 }
